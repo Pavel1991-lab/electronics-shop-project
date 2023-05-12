@@ -1,5 +1,7 @@
 import csv
-import os
+import math
+
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -46,27 +48,20 @@ class Item:
         self.price *= self.pay_rate
 
     @classmethod
-    def instantiate_from_csv(cls, path: str) -> None:
+    def instantiate_from_csv(cls, path):
         """
         Создает экземпляры класса Item из данных в файле items.csv и добавляет их в атрибут all.
-
-        :param path: путь к файлу items.csv
-        :return: None
         """
-
-
-        with open("_src//items.csv_", newline='', encoding='utf-8') as csvfile:
-            reader = csv.DictReader(csvfile)
+        with open(path, newline='', encoding='cp1251') as f:
+            reader = csv.DictReader(f)
             for row in reader:
-                """
                 name = row['name']
                 price = cls.string_to_number(row['price'])
                 quantity = cls.string_to_number(row['quantity'])
                 cls(name, price, quantity)
-                """
-                print(row)
+
     @staticmethod
-    def string_to_number(s: str) -> float:
+    def string_to_number(s: str) -> int:
         """
         Преобразует строку в число.
 
@@ -74,27 +69,17 @@ class Item:
         :return: Число, полученное из строки.
         """
         try:
-            return float(s)
+            return math.floor(float(s))
         except ValueError:
-            return 0.0
+            return 0
 
 
-def instantiate_from_csv():
-    """
-    Создает экземпляры класса Item из данных в файле items.csv и добавляет их в атрибут all.
+Item.instantiate_from_csv('C:\electronics-shop-project\src\items.csv')  # создание объектов из данных файла
+assert len(Item.all) == 5  # в файле 5 записей с данными по товарам
 
-    :param path: путь к файлу items.csv
-    :return: None
-    """
+item1 = Item.all[0]
+assert item1.name == 'Смартфон'
 
-    with open("_src\\items.csv_", newline='', encoding='utf-8') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            """
-            name = row['name']
-            price = cls.string_to_number(row['price'])
-            quantity = cls.string_to_number(row['quantity'])
-            cls(name, price, quantity)
-            """
-            print(row)
-instantiate_from_csv()
+assert Item.string_to_number('5') == 5
+assert Item.string_to_number('5.0') == 5
+assert Item.string_to_number('5.5') == 5
