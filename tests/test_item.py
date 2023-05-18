@@ -42,6 +42,14 @@ class TestItem(unittest.TestCase):
         self.assertEqual(Item.all[1].quantity, 3)
         os.remove(path)
 
+    def test_item_repr(self):
+        item = Item('apple', 1.5, 10)
+        assert repr(item) == "Item('apple', 1.5, 10)"
+
+    def test_item_str(self):
+        item = Item('apple', 1.5, 10)
+        assert str(item) == 'apple'
+
 
 if __name__ == '__main__':
     unittest.main()
