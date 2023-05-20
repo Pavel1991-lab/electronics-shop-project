@@ -3,6 +3,7 @@ import unittest
 import os
 
 from src.item import Item
+from src.keyboard import Keyboard
 
 
 class TestItem(unittest.TestCase):
@@ -50,6 +51,20 @@ class TestItem(unittest.TestCase):
         item = Item('apple', 1.5, 10)
         assert str(item) == 'apple'
 
+class Keyboard(Item):
+    def __init__(self, name, price, quantity, language="EN"):
+        super().__init__(name, price, quantity)
+        self.language = language
 
-if __name__ == '__main__':
-    unittest.main()
+    def get_language(self):
+        return self.language
+
+def test_get_language():
+    k1 = Keyboard("Logitech", 1000, 5, "RU")
+    assert k1.get_language() == "RU"
+
+    k2 = Keyboard("Microsoft", 800, 10)
+    assert k2.get_language() == "EN"
+
+    k3 = Keyboard("HP", 1200, 3, "FR")
+    assert k3.get_language() == "FR"
